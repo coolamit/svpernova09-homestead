@@ -23,6 +23,9 @@ export DEBIAN_FRONTEND=noninteractive
 
 sudo service nginx stop
 sudo systemctl disable nginx
+
+echo "Waiting 3 seconds for ports to be released..."
+sleep 3
 sudo systemctl enable apache2
 
 block="<VirtualHost *:$3>
