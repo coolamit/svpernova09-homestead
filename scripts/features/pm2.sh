@@ -16,8 +16,26 @@ then
     exit 0
 fi
 
-touch /home/$WSL_USER_NAME/.homestead-features/pm2
-chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
+# Install pm2 with retries
+MAX_RETRIES=3
+RETRY_DELAY=5
 
-# Install pm2
-npm install -g pm2
+for i in $(seq 1 $MAX_RETRIES); do
+    echo "Installing pm2 (attempt $i of $MAX_RETRIES)..."
+    if npm install -g pm2; then
+        echo "pm2 installed successfully"
+
+        # Mark as installed only after success
+        touch /home/$WSL_USER_NAME/.homestead-features/pm2
+        chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
+        exit 0
+    fi
+
+    if [ $i -lt $MAX_RETRIES ]; then
+        echo "Attempt $i failed, waiting ${RETRY_DELAY}s before retry..."
+        sleep $RETRY_DELAY
+    fi
+done
+
+echo "ERROR: pm2 installation failed after $MAX_RETRIES attempts"
+exit 1
