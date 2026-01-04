@@ -210,6 +210,10 @@ class Homestead
             folder['type'] ||= 'virtiofs'
           end
 
+          if ENV['VAGRANT_DEFAULT_PROVIDER'] == 'parallels'
+            mount_opts = folder['mount_options'] ? folder['mount_options'] : ['nonempty']
+          end
+
           if folder['type'] == 'nfs'
             mount_opts = folder['mount_options'] ? folder['mount_options'] : ['actimeo=1', 'nolock']
 
