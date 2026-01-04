@@ -15,9 +15,6 @@ if [ -f /home/$WSL_USER_NAME/.homestead-features/docker ]; then
     exit 0
 fi
 
-touch /home/$WSL_USER_NAME/.homestead-features/docker
-chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
-
 # Install dependencies
 apt-get update
 apt-get install -y ca-certificates curl gnupg
@@ -49,6 +46,10 @@ systemctl start docker
 until docker info > /dev/null 2>&1; do
     sleep 1
 done
+
+# Mark as installed only after success
+touch /home/$WSL_USER_NAME/.homestead-features/docker
+chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
 
 echo "==========================================="
 echo "Docker installed and configured"
