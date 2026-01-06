@@ -21,14 +21,8 @@ databases:
   - homestead
 
 features:
-  - docker: false
-  - golang: false
   - mariadb: false
-  - meilisearch: false
-  - minio: false
   - postgresql: false
-  - python: false
-  - rustc: false
   - ohmyzsh: false
   - webdriver: false
   - influxdb: false
