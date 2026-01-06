@@ -79,7 +79,7 @@ sudo mv mc /usr/local/bin
 
 # Wait for MinIO to be ready
 echo "Waiting for MinIO to start..."
-TIMEOUT=60
+TIMEOUT=45
 ELAPSED=0
 until curl -sf http://127.0.0.1:9600/minio/health/live > /dev/null 2>&1; do
     sleep 1
