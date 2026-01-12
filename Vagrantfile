@@ -35,6 +35,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     Homestead.configure(config, settings)
 
+    # Run post-mount script if it exists
+    config.trigger.after :up do |trigger|
+      trigger.name = "Running post-mount tasks"
+      trigger.run_remote = {inline: "[ -x /home/vagrant/.homestead-post-mount ] && /home/vagrant/.homestead-post-mount || true"}
+    end
+
     if File.exist? afterScriptPath then
         config.vm.provision "Run after.sh", type: "shell", path: afterScriptPath, privileged: false, keep_color: true
     end

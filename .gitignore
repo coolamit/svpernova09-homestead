@@ -14,3 +14,4 @@ wsl-init.log
 .backup/*
 .DS_Store
 .idea
+/code
